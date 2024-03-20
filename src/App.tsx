@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 // styled & alert
 import Swal from "sweetalert2";
 import "./App.css";
 // chart lib
 import { Pie } from "react-chartjs-2";
-import { Chart, ArcElement } from "chart.js";
+import { Chart, ArcElement, ChartOptions, ChartData } from "chart.js";
 import "chartjs-plugin-datalabels";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 Chart.register(ArcElement);
@@ -19,15 +19,17 @@ function App() {
 
   const spin = async () => {
     const box: any = document.getElementById("pie-circle-container");
-    let SelectedId = 0;
+    const cong = document.getElementById("congrats");
 
     const newArr: number[] = [];
+    let SelectedId = 0;
 
     await rewards.map((item: any) => {
+      //push only object's quantity more than 0
       if (item.quantity > 0) {
         newArr.push(...item.deg);
       } else {
-        return { ...item, color: "#404040" };
+        return { ...item, color: "#404040" }; // if less than 1 change color to dark
       }
     });
 
@@ -39,30 +41,38 @@ function App() {
       }
     });
 
+    // animate rotate wheel
     box?.style.setProperty("transition", "all ease 5s");
     box!.style.transform = `rotate(${newArr[randomIndex]}deg)`;
     setRotating(true);
 
+    // wait until rotate completed
     setTimeout(function () {
       const matched: any = rewards.find((item: any) => item.id === SelectedId);
+
+      if (matched.id == 1 || matched.id == 4 || matched.id == 5) {
+        // if won show congrats
+        cong?.classList.remove("hidden");
+      }
       // alert
       Swal.fire({
-        title: "Congratulation!",
+        title: matched.title
+          ? `Congratulation!<br/>You got ${matched.title}`
+          : "Thank you",
         color: "#ffff",
         width: "400px",
         background: "#A73121",
-        text: `You got ${matched.title}`,
         imageUrl: matched.image ?? "",
-        imageWidth: 134,
-        imageHeight: 134,
+        imageWidth: 185,
+        imageHeight: 185,
         confirmButtonText: "Close",
         confirmButtonColor: "#000",
+        allowOutsideClick: false,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          // decrease quantity and if less than 1 set #404040 color and filter from array
           await setRewards(
+            // decrease quantity and if less than 1 set #404040 color and filter from array
             rewards.map((item: any) => {
-              // #404040
               if (item.id === SelectedId) {
                 return {
                   ...item,
@@ -74,19 +84,20 @@ function App() {
               }
             })
           );
+          // reset initial after success
           await setRotating(false);
           box?.style.setProperty("transition", "initial");
           box!.style.transform = "rotate(90deg)";
+          cong?.classList.add("hidden");
         }
       });
     }, 5500);
   };
 
   // handle chart
-  const data: any = {
-    responsive: true,
+  const data: ChartData<any> = {
     // data lebel in the chart
-    labels: rewards.map((item: any) => item.title),
+    labels: rewards.map((item: any) => item.dataLabel),
     datasets: [
       {
         data: rewards.map((item: any) => item.segmentWidth), // segment's width depends on item.segmentWidth, more value more width
@@ -95,7 +106,7 @@ function App() {
     ],
   };
 
-  const pieOptions: any = {
+  const pieOptions: ChartOptions<any> = {
     elements: {
       arc: {
         borderWidth: 0,
@@ -146,19 +157,6 @@ function App() {
     },
   };
 
-  // Re-check if initial quantity is 0 set new color to the data
-  useMemo(() => {
-    setRewards(
-      rewards.map((item: any) => {
-        if (item.quantity < 1) {
-          return { ...item, color: "#404040" };
-        } else {
-          return item;
-        }
-      })
-    );
-  }, []);
-
   return (
     <main className="flex flex-col items-center">
       <div className="flex flex-col items-center justify-center w-[430px] h-[932px]">
@@ -166,6 +164,8 @@ function App() {
         <span className="text-[28px] font-extrabold text-center">
           Which reward you will get?
         </span>
+
+        {/* starts:: wheel */}
         <div id="pie-circle-container" className="pie-circle-container mt-10">
           <div id="pie-circle" className="pie-circle">
             <div className="w-[400px] h-[400px]">
@@ -177,6 +177,9 @@ function App() {
             </div>
           </div>
         </div>
+        {/* ends:: wheel */}
+
+        {/* starts:: draw button */}
         <button
           type="button"
           id="spin-button"
@@ -188,7 +191,15 @@ function App() {
         >
           Spinnnn !
         </button>
+        {/* start:: draw button */}
       </div>
+
+      {/* starts:: congrats animation */}
+      <div
+        id="congrats"
+        className="congrats hidden absolute w-full h-screen bg-cover z-50"
+      ></div>
+      {/* ends:: congrats animation */}
     </main>
   );
 }

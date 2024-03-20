@@ -1,6 +1,6 @@
 const Pin = () => {
   return (
-    <div className="absolute w-[40px] h-[40px] top-[24rem] z-50">
+    <div className="absolute w-[60px] h-[60px] top-[23rem] z-50">
       <svg
         // width="85"
         // height="106"
