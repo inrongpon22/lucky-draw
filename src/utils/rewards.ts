@@ -25,7 +25,7 @@ export const list: Reward[] = [
     color: "#FF9800",
     segmentWidth: 2,
     image: "",
-    deg: [],//1570, 1910, 2310
+    deg: [2310],//1570, 1910, 2310
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ export const list: Reward[] = [
     color: "#F44336",
     segmentWidth: 4,
     image: "",
-    deg: [],//1820, 2230, 2610
+    deg: [2610],//1820, 2230, 2610
   },
   {
     id: 4,
@@ -62,7 +62,7 @@ export const list: Reward[] = [
     color: "#01A9F4",
     segmentWidth: 2,
     image: "",
-    deg: [],//1680, 2410, 2570
+    deg: [2570],//1680, 2410, 2570
   },
   {
     id: 7,
@@ -71,6 +71,6 @@ export const list: Reward[] = [
     color: "#009588",
     segmentWidth: 2,
     image: "",
-    deg: [],//1650, 2000, 2710
+    deg: [2710],//1650, 2000, 2710
   },
 ];

@@ -15,6 +15,7 @@ import { list } from "./utils/rewards";
 
 function App() {
   const [rewards, setRewards] = useState<any>(list);
+  const [rotating, setRotating] = useState(false);
 
   const spin = async () => {
     const box: any = document.getElementById("pie-circle-container");
@@ -39,7 +40,8 @@ function App() {
     });
 
     box?.style.setProperty("transition", "all ease 5s");
-    box!.style.transform = `rotate(${newArr[randomIndex]}deg)`; //${newArr[randomIndex]}
+    box!.style.transform = `rotate(${newArr[randomIndex]}deg)`;
+    setRotating(true);
 
     setTimeout(function () {
       const matched: any = rewards.find((item: any) => item.id === SelectedId);
@@ -58,7 +60,7 @@ function App() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           // decrease quantity and if less than 1 set #404040 color and filter from array
-          setRewards(
+          await setRewards(
             rewards.map((item: any) => {
               // #404040
               if (item.id === SelectedId) {
@@ -72,16 +74,12 @@ function App() {
               }
             })
           );
+          await setRotating(false);
           box?.style.setProperty("transition", "initial");
           box!.style.transform = "rotate(90deg)";
         }
       });
     }, 5500);
-
-    // setTimeout(() => {
-    //   box?.style.setProperty("transition", "initial");
-    //   box!.style.transform = "rotate(90deg)";
-    // }, 6000);
   };
 
   // handle chart
@@ -111,7 +109,7 @@ function App() {
           size: 16,
           weight: "bold",
         },
-        formatter: (value: any, context: any) => {
+        formatter: (_value: any, context: any) => {
           return context.chart.data.labels[context.dataIndex];
         },
         rotation: (context: any) => {
@@ -174,7 +172,7 @@ function App() {
               <Pie
                 data={data}
                 options={pieOptions}
-                plugins={[ChartDataLabels]}
+                plugins={[ChartDataLabels] as any}
               />
             </div>
           </div>
@@ -182,7 +180,10 @@ function App() {
         <button
           type="button"
           id="spin-button"
-          className="float-center lg:text-3xl bg-[#FFFFFF] hover:bg-[#eeee] hover:border-red-700 mt-5 w-5/6"
+          disabled={rotating}
+          className={`float-center lg:text-3xl bg-[#FFFFFF] mt-5 w-5/6 ${
+            rotating ? "bg-gray-500" : "hover:bg-[#eeee] hover:border-red-700"
+          }`}
           onClick={spin}
         >
           Spinnnn !
