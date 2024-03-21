@@ -3,63 +3,29 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Line Seed Sans';
-  src: url('../fonts/LineSeedSans-Regular.ttf') format('truetype');
+  font-family: "Line Seed Sans";
+  src: url("../fonts/LineSeedSans-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Line Seed Sans';
-  src: url('../fonts/LineSeedSans-Bold.ttf') format('truetype');
+  font-family: "Line Seed Sans";
+  src: url("../fonts/LineSeedSans-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
-/* * {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  outline: none;
 }
-
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-   min-height: 100vh;
-  place-items: center;
-  overflow: hidden;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
 
 body {
   background: #000;
   color: #fff;
-  font-family: 'Line Seed Sans', sans-serif;
+  font-family: "Line Seed Sans", sans-serif;
 }
 
 button {
@@ -75,10 +41,6 @@ button {
   transition: border-color 0.25s;
   margin: 20px 0;
 }
-
-/* button:hover {
-  border-color: #646cff;
-} */
 
 button:focus,
 button:focus-visible {
