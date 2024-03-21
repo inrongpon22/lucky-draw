@@ -15,7 +15,7 @@ Technologies Used: ☕️ 🐍 ⚛️
 -  react-chartjs-2
 
 Demo Link: 🔗
-https://lucky-wheel-omega.vercel.app/
+https://lucky-draw-meetsoftware.vercel.app/
 
 
 Setup / Installation: 💻
