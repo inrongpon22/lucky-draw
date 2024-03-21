@@ -15,14 +15,14 @@ import { list } from "./utils/rewards";
 
 function App() {
   const [rewards, setRewards] = useState<any>(list);
-  const [rotating, setRotating] = useState(false);
+  const [rotating, setRotating] = useState<boolean>(false);
 
   const spin = async () => {
-    const box: any = document.getElementById("pie-circle-container");
-    const cong = document.getElementById("congrats");
+    const box:HTMLElement | null = document.getElementById("pie-circle-container");
+    const cong:HTMLElement | null = document.getElementById("congrats");
 
     const newArr: number[] = [];
-    let SelectedId = 0;
+    let SelectedId: number = 0;
 
     await rewards.map((item: any) => {
       //push only object's quantity more than 0
@@ -33,9 +33,10 @@ function App() {
       }
     });
 
-    const randomIndex: number = Math.floor(Math.random() * newArr.length); // random index, for random data
+    const randomIndex: number = Math.floor(Math.random() * newArr.length); // just random index, for random data
 
     await rewards.find((item: any) => {
+      // find object's id by matched degree
       if (item.deg.includes(newArr[randomIndex])) {
         SelectedId = item.id;
       }
@@ -71,7 +72,7 @@ function App() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await setRewards(
-            // decrease quantity and if less than 1 set #404040 color and filter from array
+            // decrease quantity and if less than 1 set #404040 color and filter from array, but if not return object back
             rewards.map((item: any) => {
               if (item.id === SelectedId) {
                 return {
@@ -125,7 +126,7 @@ function App() {
         },
         rotation: (context: any) => {
           // each segment have to rotate different deg
-          const newIndex = context.dataIndex + 1;
+          const newIndex: number = context.dataIndex + 1;
           switch (newIndex) {
             case 1:
               return 100;
