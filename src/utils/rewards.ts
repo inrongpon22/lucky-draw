@@ -6,7 +6,7 @@ type Reward = {
   segmentWidth: number; // if it much, width is more wide
   color: string;
   image?: string;
-  deg: object; // a chance depends on length in the array, many for more chance
+  deg: object; // you must find out prize degree match to the pin, a chance depends on length in the array - many for more chance
 };
 
 export const list: Reward[] = [
@@ -18,7 +18,7 @@ export const list: Reward[] = [
     color: "#8BC349",
     segmentWidth: 1,
     image: "/assets/apple-watch_preview.png",
-    deg: [2330],//1615, 1960, 
+    deg: [2330], //1615, 1960,
   },
   {
     id: 2,
@@ -46,7 +46,7 @@ export const list: Reward[] = [
     color: "#9B27B0",
     segmentWidth: 1,
     image: "/assets/vacc_preview.png",
-    deg: [2530],//1795, 2150, 
+    deg: [2510], //1795, 2150,
   },
   {
     id: 5,
